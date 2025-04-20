@@ -4,9 +4,9 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/php/Dockerfile
     volumes:
-      - .:/var/www
+      - ./src:/var/www
     depends_on:
       - redis
       - postgres
@@ -16,10 +16,10 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80"
+      - "8082:80"
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - .:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./src:/var/www
     depends_on:
       - app
     networks:
@@ -42,7 +42,7 @@ services:
       POSTGRES_PASSWORD: pass
       POSTGRES_DB: laravel
     volumes:
-      - postgres_data:/var/lib/postgresql/data2
+      - ./docker/postgres/data:/var/lib/postgresql/data2
     ports:
       - "5432:5432"
     networks:
