@@ -20,8 +20,7 @@ class StoreCategoryRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:10', 'max:255'],
-            'price' => ['required', 'numeric', 'min:1'],
+            'category_name' => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
 }

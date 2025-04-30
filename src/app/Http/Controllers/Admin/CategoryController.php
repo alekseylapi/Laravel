@@ -10,34 +10,32 @@ class CategoryController
 {
     public function index()
     {
-        /** @var Category[] $category */
-        $category = Category::all();
-        return CategoryResource::collection($category);
+        $categories = Category::all();
+        return CategoryResource::collection($categories);
     }
-    public function view(Category $category)
+
+    public function show(Category $category)
     {
         return new CategoryResource($category);
     }
 
     public function store(StoreCategoryRequest $request)
     {
-        $categoryData = $request->all();
+        $category = Category::create($request->validated());
+        return (new CategoryResource($category))
+            ->response()
+            ->setStatusCode(Response::HTTP_CREATED);
+    }
 
-        $category = new Category();
-        $category->id = $categoryData['id'];
-        $category->category_name = $categoryData['category_name'];
-        $category->save();
-
+    public function update(UpdateCategoryRequest $request, Category $category)
+    {
+        $category->update($request->validated());
         return new CategoryResource($category);
     }
 
-    public function update(string $category_id)
+    public function destroy(Category $category)
     {
-        return "Category update {$category_id}";
-    }
-
-    public function delete(string $category_id)
-    {
-        return "Category delete {$category_id}";
+        $category->delete();
+        return response()->noContent();
     }
 }
