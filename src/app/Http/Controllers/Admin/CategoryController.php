@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Models\Product;
 
 class CategoryController
 {
@@ -15,18 +14,18 @@ class CategoryController
         $category = Category::all();
         return CategoryResource::collection($category);
     }
-    public function view(Product $product)
+    public function view(Category $category)
     {
-        return new CategoryResource($product);
+        return new CategoryResource($category);
     }
 
     public function store(StoreCategoryRequest $request)
     {
-        $productData = $request->all();
+        $categoryData = $request->all();
 
-        $Category = new Product();
-        $Category->name = $productData['name'];
-        $Category->price = $productData['price'];
+        $Category = new Category();
+        $Category->id = $categoryData['name'];
+        $Category->category_name = $categoryData['price'];
         $Category->save();
 
         return new CategoryResource($Category);
@@ -34,11 +33,11 @@ class CategoryController
 
     public function update(string $category_id)
     {
-        return "Product update {$category_id}";
+        return "Category update {$category_id}";
     }
 
-    public function delete(string $product_id)
+    public function delete(string $categoy_id)
     {
-        return "Product delete {$product_id}";
+        return "Category delete {$categoy_id}";
     }
 }
