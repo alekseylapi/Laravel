@@ -23,12 +23,12 @@ class CategoryController
     {
         $categoryData = $request->all();
 
-        $Category = new Category();
-        $Category->id = $categoryData['id'];
-        $Category->category_name = $categoryData['category_name'];
-        $Category->save();
+        $category = new Category();
+        $category->id = $categoryData['id'];
+        $category->category_name = $categoryData['category_name'];
+        $category->save();
 
-        return new CategoryResource($Category);
+        return new CategoryResource($category);
     }
 
     public function update(string $category_id)
@@ -36,8 +36,8 @@ class CategoryController
         return "Category update {$category_id}";
     }
 
-    public function delete(string $categoy_id)
+    public function delete(string $category_id)
     {
-        return "Category delete {$categoy_id}";
+        return "Category delete {$category_id}";
     }
 }
