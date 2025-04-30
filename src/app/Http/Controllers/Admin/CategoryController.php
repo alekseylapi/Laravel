@@ -24,8 +24,8 @@ class CategoryController
         $categoryData = $request->all();
 
         $Category = new Category();
-        $Category->id = $categoryData['name'];
-        $Category->category_name = $categoryData['price'];
+        $Category->id = $categoryData['id'];
+        $Category->category_name = $categoryData['category_name'];
         $Category->save();
 
         return new CategoryResource($Category);
