@@ -22,6 +22,7 @@ class ProductResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'price' => $this->resource->price,
+            'deleted_at' => $this->resource->deleted_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

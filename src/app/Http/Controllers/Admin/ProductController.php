@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\SuccessResource;
 use App\Models\Product;
 
 class ProductController
@@ -11,7 +13,7 @@ class ProductController
     public function index()
     {
         /** @var Product[] $products */
-        $products = Product::all();
+        $products = Product::withTrashed()->get();
 
         return ProductResource::collection($products);
     }
@@ -33,13 +35,28 @@ class ProductController
         return new ProductResource($product);
     }
 
-    public function update(string $product_id)
+    public function update(Product $product, UpdateProductRequest $request)
     {
-        return "Product update {$product_id}";
+        $productData = $request->all();
+
+        $product->name = $productData['name'];
+        $product->price = $productData['price'];
+        $product->save();
+
+        return new ProductResource($product);
     }
 
-    public function delete(string $product_id)
+    public function delete(Product $product)
     {
-        return "Product delete {$product_id}";
+        $product->delete();
+
+        return SuccessResource::make([]);
+    }
+
+    public function restore(Product $product)
+    {
+        $product->restore();
+
+        return new ProductResource($product);
     }
 }
