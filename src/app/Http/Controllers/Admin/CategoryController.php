@@ -21,21 +21,20 @@ class CategoryController
 
     public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request->validated());
-        return (new CategoryResource($category))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
-    }
-
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        $category->update($request->validated());
+        $categoryData = $request->all();
+        $category = new Category();
+        $category -> category_name = $categoryData["category_name"];
+        $category -> save();
         return new CategoryResource($category);
     }
 
-    public function destroy(Category $category)
+    public function update(string $category_id)
     {
-        $category->delete();
-        return response()->noContent();
+        return "Category update {$category_id}";
+    }
+
+    public function delete(string $category_id)
+    {
+        return "Category delete {$category_id}";
     }
 }
