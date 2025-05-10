@@ -16,7 +16,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "8082:80"
+      - "80:80"
     volumes:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./src:/var/www
