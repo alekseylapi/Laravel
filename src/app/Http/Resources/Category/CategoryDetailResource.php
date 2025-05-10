@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Category;
 
-use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property Product $resource
+ * @property Category $resource
  */
-class ProductResource extends JsonResource
+class CategoryDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -21,8 +21,8 @@ class ProductResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'price' => $this->resource->price,
             'deleted_at' => $this->resource->deleted_at?->format('Y-m-d H:i:s'),
+            'products' => ProductResource::collection($this->resource->products),
         ];
     }
 }

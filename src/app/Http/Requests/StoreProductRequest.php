@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreProductRequest extends FormRequest
@@ -24,6 +25,7 @@ class StoreProductRequest extends FormRequest
         return [
             'name' => ['required', 'min:10', 'max:255'],
             'price' => ['required', 'numeric', 'min:1'],
+            'category_id' => ['required', 'numeric', 'exists:' . Category::class . ',id'],
         ];
     }
 }

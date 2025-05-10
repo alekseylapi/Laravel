@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Api;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
-use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\Http\Resources\Category\CategoryDetailResource;
+use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\SuccessResource;
+use App\Models\Category;
 
 class CategoryController
 {
@@ -18,7 +19,7 @@ class CategoryController
 
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        return new CategoryDetailResource($category);
     }
 
     public function store(StoreCategoryRequest $request)
@@ -27,7 +28,7 @@ class CategoryController
         $category = new Category();
         $category->name = $categoryData["name"];
         $category->save();
-        return new CategoryResource($category);
+        return new CategoryDetailResource($category);
     }
 
     public function update(Category $category, UpdateCategoryRequest $request)
@@ -35,7 +36,7 @@ class CategoryController
         $categoryData = $request->all();
         $category->name = $categoryData['name'];
         $category->save();
-        return new CategoryResource($category);
+        return new CategoryDetailResource($category);
     }
 
     public function delete(Category $category)
@@ -48,6 +49,6 @@ class CategoryController
     {
         $category->restore();
 
-        return new CategoryResource($category);
+        return new CategoryDetailResource($category);
     }
 }

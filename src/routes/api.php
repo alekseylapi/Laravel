@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\Api\CategoryController;
+use App\Http\Controllers\Admin\Api\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->middleware(['check_is_admin'])->group(function () {
