@@ -11,7 +11,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property Category $resource
  */
-
 class CategoryResource extends JsonResource
 {
     /**
@@ -22,8 +21,9 @@ class CategoryResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id,
+            'id' => $this->id,
             'category_name' => $this->category_name,
+            'deleted_at' => $this->deleted_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

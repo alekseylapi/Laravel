@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Http\Resources\SuccessResource;
 
 class CategoryController
 {
@@ -28,13 +30,24 @@ class CategoryController
         return new CategoryResource($category);
     }
 
-    public function update(string $category_id)
+    public function update(Category $category, UpdateCategoryRequest $request)
     {
-        return "Category update {$category_id}";
+        $categoryData = $request->all();
+        $category->category_name =$categoryData['category_name'];
+        $category->save();
+        return new CategoryResource($category);
     }
 
-    public function delete(string $category_id)
+    public function delete(Category $category)
     {
-        return "Category delete {$category_id}";
+        $category->delete();
+        return new SuccessResource([]);
+    }
+    public function restore(int $id)
+    {
+        $category = Category::withTrashed()->findOrFail($id); // <--- обязательно withTrashed()
+        $category->restore();
+
+        return new CategoryResource($category);
     }
 }
