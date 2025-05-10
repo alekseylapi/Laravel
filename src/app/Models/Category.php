@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property string $category_name
  */
-
 class Category extends Model
 {
     use SoftDeletes;
-
 }

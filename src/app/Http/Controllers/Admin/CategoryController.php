@@ -25,15 +25,15 @@ class CategoryController
     {
         $categoryData = $request->all();
         $category = new Category();
-        $category -> category_name = $categoryData["category_name"];
-        $category -> save();
+        $category->category_name = $categoryData["category_name"];
+        $category->save();
         return new CategoryResource($category);
     }
 
     public function update(Category $category, UpdateCategoryRequest $request)
     {
         $categoryData = $request->all();
-        $category->category_name =$categoryData['category_name'];
+        $category->category_name = $categoryData['category_name'];
         $category->save();
         return new CategoryResource($category);
     }
@@ -43,6 +43,7 @@ class CategoryController
         $category->delete();
         return new SuccessResource([]);
     }
+
     public function restore(int $id)
     {
         $category = Category::withTrashed()->findOrFail($id); // <--- обязательно withTrashed()
