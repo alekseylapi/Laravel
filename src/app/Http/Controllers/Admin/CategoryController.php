@@ -44,9 +44,8 @@ class CategoryController
         return new SuccessResource([]);
     }
 
-    public function restore(int $id)
+    public function restore(Category $category)
     {
-        $category = Category::withTrashed()->findOrFail($id); // <--- обязательно withTrashed()
         $category->restore();
 
         return new CategoryResource($category);

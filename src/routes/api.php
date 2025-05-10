@@ -18,7 +18,7 @@ Route::prefix('admin')->middleware(['check_is_admin'])->group(function () {
         Route::get('{category}', [CategoryController::class, 'show'])->withTrashed();
         Route::post('', [CategoryController::class, 'store']);
         Route::put('{category}', [CategoryController::class, 'update']);
-        Route::delete('{id}', [CategoryController::class, 'delete']);
-        Route::post('{id}/restore', [CategoryController::class, 'restore'])->withTrashed();
+        Route::delete('{category}', [CategoryController::class, 'delete']);
+        Route::post('{category}/restore', [CategoryController::class, 'restore'])->withTrashed();
     });
 });
