@@ -25,7 +25,7 @@ class CategoryController
     {
         $categoryData = $request->all();
         $category = new Category();
-        $category->category_name = $categoryData["category_name"];
+        $category->name = $categoryData["name"];
         $category->save();
         return new CategoryResource($category);
     }
@@ -33,7 +33,7 @@ class CategoryController
     public function update(Category $category, UpdateCategoryRequest $request)
     {
         $categoryData = $request->all();
-        $category->category_name = $categoryData['category_name'];
+        $category->name = $categoryData['name'];
         $category->save();
         return new CategoryResource($category);
     }
