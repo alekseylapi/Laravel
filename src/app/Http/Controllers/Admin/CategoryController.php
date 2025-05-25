@@ -7,38 +7,50 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Http\Resources\SuccessResource;
+use App\Services\Category\UpdateAction;
 
 class CategoryController
 {
     public function index()
     {
-        $categories = Category::all();
-        return CategoryResource::collection($categories);
+        $categories = Category::withTrashed()->get();
+
+        return view(
+            'categories.index',
+            [
+                'categories' => $categories,
+            ]
+        );
     }
 
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        return view('categories.view', [
+            'category' => $category,
+        ]);
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function create()
     {
-        $categoryData = $request->all();
-        $category = new Category();
-        $category->category_name = $categoryData["category_name"];
-        $category->save();
-        return new CategoryResource($category);
+        return view('categories.create');
     }
 
-    public function update(Category $category, UpdateCategoryRequest $request)
+    public function store(StoreCategoryRequest $request, UpdateAction $action)
     {
-        $categoryData = $request->all();
-        $category->category_name = $categoryData['category_name'];
-        $category->save();
+        $category = $action->update(new Category(), $request->all());
+
+//        return redirect(route('admin.categories.index'));
+        return redirect(route('admin.categories.show', $category->id));
+    }
+
+    public function update(Category $category, UpdateCategoryRequest $request, UpdateAction $action)
+    {
+        $category = $action->update($category, $request->all());
+
         return new CategoryResource($category);
     }
 
-    public function delete(Category $category)
+    public function destroy(Category $category)
     {
         $category->delete();
         return new SuccessResource([]);

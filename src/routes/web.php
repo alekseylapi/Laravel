@@ -11,14 +11,14 @@ Route::prefix('admin')->group(function () {
         return "Hello world";
     });
 });
-Route::prefix('admin')->middleware(['auth', 'check_is_admin'])->group(function () {
+Route::prefix('admin')->middleware([])->group(function () {
     // Категории
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class)->names('admin.categories')->withTrashed();
     Route::post('categories/{id}/restore', [\App\Http\Controllers\Admin\CategoryController::class, 'restore'])
-        ->name('categories.restore');
+        ->name('admin.categories.restore');
 
     // Продукты
-    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show']);
-    Route::post('products/{id}/restore', [\App\Http\Controllers\Admin\ProductController::class, 'restore'])
-        ->name('products.restore');
+//    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show']);
+//    Route::post('products/{id}/restore', [\App\Http\Controllers\Admin\ProductController::class, 'restore'])
+//        ->name('products.restore');
 });

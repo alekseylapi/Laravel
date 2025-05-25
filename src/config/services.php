@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'api1' => [ // @todo сделано для примера, удалить
+        'baseurl' => 'baseUrlFromConfig',
+        'token' => 'tokenFromConfig',
+    ]
 ];

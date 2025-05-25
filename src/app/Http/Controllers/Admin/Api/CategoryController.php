@@ -8,12 +8,13 @@ use App\Http\Resources\Category\CategoryDetailResource;
 use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\SuccessResource;
 use App\Models\Category;
+use App\Services\Category\UpdateAction;
 
 class CategoryController
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::withTrashed()->get();
         return CategoryResource::collection($categories);
     }
 
@@ -22,20 +23,18 @@ class CategoryController
         return new CategoryDetailResource($category);
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request, UpdateAction $action)
     {
-        $categoryData = $request->all();
-        $category = new Category();
-        $category->name = $categoryData["name"];
-        $category->save();
+        $action = app(UpdateAction::class); // @todo сделано для примера, удалить
+        $category = $action->update(new Category(), $request->all());
+
         return new CategoryDetailResource($category);
     }
 
-    public function update(Category $category, UpdateCategoryRequest $request)
+    public function update(Category $category, UpdateCategoryRequest $request, UpdateAction $action)
     {
-        $categoryData = $request->all();
-        $category->name = $categoryData['name'];
-        $category->save();
+        $category = $action->update($category, $request->all());
+
         return new CategoryDetailResource($category);
     }
 
