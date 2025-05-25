@@ -1,6 +1,8 @@
-<?php
+<?php /** @var \App\Models\Category[] $categories */ ?>
+
 @extends('layouts.app')
 
+@section('title', 'Categories')
 @section('content')
     <div class="container">
         <h1>Categories</h1>
