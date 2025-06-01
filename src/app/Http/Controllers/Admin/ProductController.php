@@ -6,7 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
-use App\Services\Products\UpdateAction as ProductUpdateAction;
+use App\Services\Products\UpdateAction;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -24,7 +24,7 @@ class ProductController
         return view('products.create', compact('categories'));
     }
 
-    public function store(StoreProductRequest $request, ProductUpdateAction $action): RedirectResponse
+    public function store(StoreProductRequest $request, UpdateAction $action): RedirectResponse
     {
         $data = $request->validated();
         $product = $action->update(new Product(), $data);
@@ -45,7 +45,7 @@ class ProductController
         return view('products.edit', compact('product', 'categories'));
     }
 
-    public function update(UpdateProductRequest $request, Product $product, ProductUpdateAction $action): RedirectResponse
+    public function update(UpdateProductRequest $request, Product $product, UpdateAction $action): RedirectResponse
     {
         $data = $request->validated();
         $action->update($product, $data);
