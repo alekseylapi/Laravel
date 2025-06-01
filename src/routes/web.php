@@ -20,5 +20,5 @@ Route::prefix('admin')->middleware([])->group(function () {
     // Продукты
     Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except(['show'])->names('admin.products');
     Route::post('products/{id}/restore', [\App\Http\Controllers\Admin\ProductController::class, 'restore'])
-        ->name('products.restore');
+        ->name('admin.products.restore');
 });
