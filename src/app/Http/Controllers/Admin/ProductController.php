@@ -14,17 +14,14 @@ class ProductController
 {
     public function index(): View
     {
-        $products = Product::withTrashed()
-            ->with('category')
-            ->get();
-
-        return view('admin.products.index', compact('products'));
+        $products = Product::withTrashed()->with('category')->get();
+        return view('products.index', compact('products'));
     }
 
     public function create(): View
     {
         $categories = Category::all();
-        return view('admin.products.create', compact('categories'));
+        return view('products.create', compact('categories'));
     }
 
     public function store(StoreProductRequest $request, ProductUpdateAction $action): RedirectResponse
@@ -39,13 +36,13 @@ class ProductController
 
     public function show(Product $product): View
     {
-        return view('admin.products.show', compact('product'));
+        return view('products.show', compact('product'));
     }
 
     public function edit(Product $product): View
     {
         $categories = Category::all();
-        return view('admin.products.edit', compact('product', 'categories'));
+        return view('products.edit', compact('product', 'categories'));
     }
 
     public function update(UpdateProductRequest $request, Product $product, ProductUpdateAction $action): RedirectResponse
