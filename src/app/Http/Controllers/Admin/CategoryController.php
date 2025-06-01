@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\CategoryCreated;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
@@ -14,7 +15,9 @@ class CategoryController
 {
     public function index()
     {
-        $categories = Category::withTrashed()->get();
+        $categories = Category::withTrashed()
+            ->orderBy('created_at')
+            ->get();
 
         return view(
             'categories.index',
@@ -41,6 +44,7 @@ class CategoryController
         $category = $action->update(new Category(), $request->all());
 
 //        return redirect(route('admin.categories.index'));
+        CategoryCreated::dispatch($category);
         return redirect(route('admin.categories.show', $category->id));
     }
 
