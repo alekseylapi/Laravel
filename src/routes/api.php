@@ -2,7 +2,13 @@
 
 use App\Http\Controllers\Admin\Api\CategoryController;
 use App\Http\Controllers\Admin\Api\ProductController;
+use App\Http\Controllers\Admin\Api\WeatherController;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('weather')->group(function () {
+    Route::get('{city}', [WeatherController::class, 'index']);
+});
+
 
 Route::prefix('admin')->middleware(['check_is_admin'])->group(function () {
     Route::prefix('products')/*->middleware('can:product_view')*/ ->group(function () {
