@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Jobs\SendProductCreatedNotification;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\Products\UpdateAction;
@@ -29,9 +30,12 @@ class ProductController
         $data = $request->validated();
         $product = $action->update(new Product(), $data);
 
+        // Отправляем email уведомление асинхронно
+        SendProductCreatedNotification::dispatch($product, auth()->user());
+
         return redirect()
             ->route('admin.products.index')
-            ->with('success', 'Product created successfully.');
+            ->with('success', 'Товар успешно создан. Уведомление отправлено на email.');
     }
 
     public function show(Product $product): View
@@ -52,7 +56,7 @@ class ProductController
 
         return redirect()
             ->route('admin.products.index')
-            ->with('success', 'Product updated successfully.');
+            ->with('success', 'Товар успешно обновлен.');
     }
 
     public function destroy(Product $product): RedirectResponse
@@ -61,7 +65,7 @@ class ProductController
 
         return redirect()
             ->route('admin.products.index')
-            ->with('success', 'Product deleted successfully.');
+            ->with('success', 'Товар успешно удален.');
     }
 
     public function restore($id): RedirectResponse
@@ -72,6 +76,6 @@ class ProductController
 
         return redirect()
             ->route('admin.products.index')
-            ->with('success', 'Product restored successfully.');
+            ->with('success', 'Товар успешно восстановлен.');
     }
 }

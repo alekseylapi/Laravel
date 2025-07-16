@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в систему</title>
+    <title>Регистрация</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -52,26 +52,37 @@
             <div class="col-md-6 col-lg-5">
                 <div class="auth-card p-4 p-md-5">
                     <div class="text-center mb-4">
-                        <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
-                        <h2 class="fw-bold">Вход в систему</h2>
-                        <p class="text-muted">Войдите в свой аккаунт</p>
+                        <i class="fas fa-user-plus fa-3x text-primary mb-3"></i>
+                        <h2 class="fw-bold">Регистрация</h2>
+                        <p class="text-muted">Создайте новый аккаунт</p>
                     </div>
                     
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('register') }}">
                         @csrf
                         
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                <i class="fas fa-user me-2"></i>Имя
+                            </label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                                id="name" name="name" value="{{ old('name') }}" required autofocus>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="mb-3">
                             <label for="email" class="form-label">
                                 <i class="fas fa-envelope me-2"></i>Email
                             </label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                id="email" name="email" value="{{ old('email') }}" required autofocus>
+                                id="email" name="email" value="{{ old('email') }}" required>
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label for="password" class="form-label">
                                 <i class="fas fa-lock me-2"></i>Пароль
                             </label>
@@ -82,17 +93,25 @@
                             @enderror
                         </div>
 
+                        <div class="mb-4">
+                            <label for="password_confirmation" class="form-label">
+                                <i class="fas fa-lock me-2"></i>Подтвердите пароль
+                            </label>
+                            <input type="password" class="form-control" 
+                                id="password_confirmation" name="password_confirmation" required>
+                        </div>
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-sign-in-alt me-2"></i>Войти
+                                <i class="fas fa-user-plus me-2"></i>Зарегистрироваться
                             </button>
                         </div>
                     </form>
 
                     <div class="text-center mt-4">
                         <p class="mb-0">
-                            Нет аккаунта? 
-                            <a href="{{ route('register') }}" class="auth-link fw-bold">Зарегистрироваться</a>
+                            Уже есть аккаунт? 
+                            <a href="{{ route('login') }}" class="auth-link fw-bold">Войти</a>
                         </p>
                     </div>
                 </div>
